@@ -3,7 +3,7 @@ const BOT_TOKEN = '952727985:AAEX8gjCL_myd9RbEOuKTekfrgzaawhZT2M'
 const bot = new Telegraf(BOT_TOKEN)
 
 const PORT = process.env.PORT || 3000;
-const URL = process.env.URL || 'https://your-heroku-app.herokuapp.com';
+const URL = process.env.URL || 'https://acnlbrbot.herokuapp.com';
 
 bot.telegram.setWebhook(`${URL}/bot${BOT_TOKEN}`);
 bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT)
