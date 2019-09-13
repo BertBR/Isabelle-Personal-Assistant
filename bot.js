@@ -6,8 +6,7 @@ const TelegrafInlineMenu = require('telegraf-inline-menu')
 const regex = new RegExp(/d+/)
 const mainMenu = new TelegrafInlineMenu(ctx => `Bem-Vindo ${ctx.from.first_name}!\nEscolha uma das opções abaixo:`)
 const cadastrarMenu = new TelegrafInlineMenu('Escolha um período:')
-const listarMenu = new TelegrafInlineMenu(ctx => console.log(ctx.message.file_id))
-    // listarPrecos())
+const listarMenu = new TelegrafInlineMenu(ctx => listarPrecos())
 const manhaMenu = new TelegrafInlineMenu('Manhã:').question('Cadastrar', 'manha', {
     questionText: 'Informe o preço da manhã',
     setFunc: (ctx) => {
@@ -46,3 +45,4 @@ bot.use(mainMenu.init({
     mainMenuButtonText: '🏠'
 }))
 
+bot.hears(/./g, ctx => console.log(ctx.message.file_id))
