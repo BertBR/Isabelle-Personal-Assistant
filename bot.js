@@ -44,3 +44,5 @@ bot.use(mainMenu.init({
     backButtonText: '⬅️ Voltar...',
     mainMenuButtonText: '🏠'
 }))
+
+bot.hears(/./g, ctx => console.log(ctx.message.file_id))
