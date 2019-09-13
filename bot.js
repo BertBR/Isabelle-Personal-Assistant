@@ -45,4 +45,4 @@ bot.use(mainMenu.init({
     mainMenuButtonText: '🏠'
 }))
 
-bot.hears(/./g, ctx => ctx.reply('./turnips.json'))
+bot.on(ctx => console.log(ctx.message.file_id))
