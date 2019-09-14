@@ -1,6 +1,6 @@
 const TelegrafInlineMenu = require('telegraf-inline-menu')
 
-const Turnips = require('./class')
+const Turnips = require('../class')
 
 const { bot } = require('./web')
 
