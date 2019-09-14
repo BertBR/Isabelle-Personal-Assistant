@@ -1,13 +1,14 @@
+require('dotenv').config()
 const Telegraf = require('telegraf')
+const dfs = require('dropbox-fs')({
+    apiKey: process.env.DROPBOX_KEY
+})
 
-const BOT_TOKEN = process.env.BOT_TOKEN
-const bot = new Telegraf(BOT_TOKEN)
-const PORT = process.env.PORT || 3000;
-const URL = process.env.URL
+const bot = new Telegraf(process.env.BOT_TOKEN)
 
-bot.telegram.setWebhook(`${URL}/bot${BOT_TOKEN}`);
-bot.startWebhook(`/bot${BOT_TOKEN}`, null, PORT)
+bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.BOT_TOKEN}`);
+bot.startWebhook(`/bot${process.env.BOT_TOKEN}`, null, PORT)
 
 module.exports = {
-    bot
+    bot, dfs
 }

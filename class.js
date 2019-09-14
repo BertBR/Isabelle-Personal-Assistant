@@ -1,7 +1,4 @@
-const dfs = require('dropbox-fs')({
-    apiKey: process.env.DROPBOX_KEY
-})
-
+const { dfs } = require('./web')
 const { readFile, writeFile } = require('fs')
 const { promisify } = require('util')
 
