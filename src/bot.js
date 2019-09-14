@@ -1,6 +1,6 @@
 const TelegrafInlineMenu = require('telegraf-inline-menu')
 
-const Turnips = require('../class')
+const Turnips = require('./class')
 
 const { bot } = require('./web')
 
@@ -32,7 +32,6 @@ const manhaMenu = new TelegrafInlineMenu('Manhã:').question('Cadastrar', 'manha
                     ctx.reply('Valor cadastrado com sucesso!')
                 })
         }
-
     }
 })
 

@@ -1,13 +1,17 @@
 {
-  "name": "ACNLBRBOT",
+  "name": "Isabelle-Personal-Assistant",
   "version": "1.0.0",
-  "description": "",
+  "description": "Offical bot of: http://t.me/acnlbr",
   "main": "index.js",
   "scripts": {
     "test": "nodemon bot.js",
-    "start": "node bot.js"
+    "start": "node src/bot.js"
   },
-  "keywords": [],
+  "keywords": [
+    "telegram",
+    "animal crossing",
+    "turnips"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
