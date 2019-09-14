@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dropbox-fs": "^0.3.1",
     "eslint": "^6.2.2",
     "telegraf": "^3.32.0",
     "telegraf-inline-menu": "^3.6.0"

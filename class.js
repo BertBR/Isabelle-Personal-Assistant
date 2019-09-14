@@ -1,12 +1,26 @@
+const dfs = require('dropbox-fs')({
+    apiKey: process.env.DROPBOX_KEY
+})
+
 const { readFile, writeFile } = require('fs')
 const { promisify } = require('util')
 
 const readFileAsync = promisify(readFile)
 const writeFileAsync = promisify(writeFile)
+const readFileDropbox = promisify(dfs.readFile)
+const writeFileDropbox = promisify(dfs.writeFile)
 
 class Turnips {
     constructor() {
         this.NOME_ARQUIVO = 'turnips.json'
+    }
+    async enviarArquivoDropbox() {
+        const content = await readFileAsync('./turnips.json', { encoding: 'utf8' })
+        return await writeFileDropbox('/turnips.json', content, {mode: 'overwrite', encoding: 'utf8'})
+    }
+    async receberArquivoDropbox() {
+        const content = await readFileDropbox('/turnips.json', { encoding: 'utf8' })
+        return await writeFileAsync('./turnips.json', content, { encoding: 'utf8' })
     }
     async ObterDadosArquivo() {
         const arquivo = await readFileAsync(this.NOME_ARQUIVO, 'utf8')
