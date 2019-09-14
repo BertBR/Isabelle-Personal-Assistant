@@ -11,7 +11,7 @@ For now, this bot has just two basic functions...
 - Register your Turnips prices
 - List them all
 
-The bot will check out automatically what day is when you tap on **Cadastrar** button and register your prices on a simple JSON file.
+The bot will check out automatically what's the day of week,when you tap on **Cadastrar** button, and register your prices on a simple JSON file.
 
 According all users going to registering all the prices, you will be able to check the complete prices list when tap on **Listar** button.
 
