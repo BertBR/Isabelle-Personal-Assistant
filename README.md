@@ -16,5 +16,4 @@ The bot will check out automatically what day is when you tap on **Cadastrar** b
 According all users going to registering all the prices, you will be able to check the complete prices list when tap on **Listar** button.
 
 ## Work in progress
-> - **v1.0a**
- We actually working on the 1.0b version. It will run in a SQL Database and will have some new features...
+> - **v1.0a:** We actually working on the 1.0b version. It will run in a SQL Database and will have some new features...
