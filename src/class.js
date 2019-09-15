@@ -39,35 +39,48 @@ class Turnips {
     }
 
     async CadastrarPreco(horario, id, name, preco, today, dados) {
+        
         let novosDados = {}
         if (horario === 1) {
+
             novosDados = {
                 id,
                 name,
                 preco: []
             }
+
             novosDados.preco[0] = preco
         } else {
+
             novosDados = {
                 id,
                 name,
                 preco: []
             }
+
             novosDados.preco[1] = preco
         }
+
         dados[today] = [...dados[today], novosDados]
-        return await this.EscreverDadosArquivo([dados]);
+
+        return await this.EscreverDadosArquivo([dados])
 
     }
 
     async atualizarPreco(horario, preco, today, indice, dados) {
-        const atual = dados[today][indice];
+
+        const atual = dados[today][indice]
+
         if (horario === 1) {
+
             atual.preco[0] = preco
         } else {
+
             atual.preco[1] = preco
         }
+
         [...dados[today], atual]
+
         return await this.EscreverDadosArquivo([dados]);
     }
 
@@ -78,12 +91,19 @@ class Turnips {
     }
 
     async verificarIndice(horario, id, name, preco) {
-        const [dados] = await this.ObterDadosArquivo();
-        const today = await this.verificarDia();
+
+        const [dados] = await this.ObterDadosArquivo()
+
+        const today = await this.verificarDia()
+
         const indice = dados[today].findIndex(item => item.id === parseInt(id))
+
         if (indice === -1) {
+
             return await this.CadastrarPreco(horario, id, name, preco, today, dados)
+
         } else {
+
             return await this.atualizarPreco(horario, preco, today, indice, dados)
         }
     }
