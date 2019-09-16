@@ -15,96 +15,104 @@ const writeFileDropbox = promisify(dfs.writeFile)
 class Turnips {
 
     constructor() {
-        this.NOME_ARQUIVO = 'turnips.json'
+        this.FILENAME = 'turnips.json'
     }
 
-    async enviarArquivoDropbox() {
+    async uploadToDropbox() {
         const content = await readFileAsync('./turnips.json', { encoding: 'utf8' })
         return await writeFileDropbox('/turnips.json', content, {mode: 'overwrite', encoding: 'utf8'})
     }
 
-    async receberArquivoDropbox() {
-        const content = await readFileDropbox('/turnips.json', { encoding: 'utf8' })
-        return await writeFileAsync('./turnips.json', content, { encoding: 'utf8' })
+    async downloadFromDropbox() {
+        const content = await readFileDropbox('/turnips.json')
+        const today = await this.checkDay()
+        const newstr = JSON.parse(content)
+        const idMap = newstr[0][today].map(element => {
+            if(element.id === 254704367){
+                element.name = 'Débora♡'
+            }
+            return element
+        })
+        newstr[0][today] = idMap
+        return await writeFileAsync('./turnips.json', JSON.stringify(newstr))
     }
 
-    async ObterDadosArquivo() {
-        const arquivo = await readFileAsync(this.NOME_ARQUIVO, 'utf8')
-        return JSON.parse(arquivo.toString())
+    async getFileData() {
+        const file = await readFileAsync(this.FILENAME, 'utf8')
+        return JSON.parse(file.toString())
     }
 
-    async EscreverDadosArquivo(dados) {
-        await writeFileAsync(this.NOME_ARQUIVO, JSON.stringify(dados))
+    async writeFileData(data) {
+        await writeFileAsync(this.FILENAME, JSON.stringify(data))
         return true
     }
 
-    async CadastrarPreco(horario, id, name, preco, today, dados) {
+    async registerPrices(time, id, name, price, today, data) {
         
-        let novosDados = {}
-        if (horario === 1) {
+        let newData = {}
+        if (time === 1) {
 
-            novosDados = {
+            newData = {
                 id,
                 name,
-                preco: []
+                price: []
             }
 
-            novosDados.preco[0] = preco
+            newData.price[0] = price
         } else {
 
-            novosDados = {
+            newData = {
                 id,
                 name,
-                preco: []
+                price: []
             }
 
-            novosDados.preco[1] = preco
+            newData.price[1] = price
         }
 
-        dados[today] = [...dados[today], novosDados]
+        data[today] = [...data[today], newData]
 
-        return await this.EscreverDadosArquivo([dados])
+        return await this.writeFileData([data])
 
     }
 
-    async atualizarPreco(horario, preco, today, indice, dados) {
+    async updatePrices(time, price, today, index, data) {
 
-        const atual = dados[today][indice]
+        const actual = data[today][index]
 
-        if (horario === 1) {
-
-            atual.preco[0] = preco
+        if (time === 1) {
+            actual.price[0] = price
         } else {
-
-            atual.preco[1] = preco
+            actual.price[1] = price
         }
 
-        [...dados[today], atual]
+        [...data[today], actual]
 
-        return await this.EscreverDadosArquivo([dados]);
+        return await this.writeFileData([data]);
     }
 
-    async verificarDia() {
-        const diasSemana = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        const dia = new Date().getDay()
-        return diasSemana[dia]
+    async checkDay() {
+        const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const day = new Date().getDay()
+        return week[day]
     }
 
-    async verificarIndice(horario, id, name, preco) {
+    async checkIndex(time, id, name, price) {
 
-        const [dados] = await this.ObterDadosArquivo()
+        const [data] = await this.getFileData()
 
-        const today = await this.verificarDia()
+        const today = await this.checkDay()
 
-        const indice = dados[today].findIndex(item => item.id === parseInt(id))
+        const index = data[today].findIndex(item => item.id === parseInt(id))
 
-        if (indice === -1) {
+        if (index === -1) {
 
-            return await this.CadastrarPreco(horario, id, name, preco, today, dados)
+            return await this.registerPrices(time, id, name, price, today, data)
 
         } else {
 
-            return await this.atualizarPreco(horario, preco, today, indice, dados)
+            return await this.updatePrices(time, price, today, index, data)
+
         }
     }
 }
