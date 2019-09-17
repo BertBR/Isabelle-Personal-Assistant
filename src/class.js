@@ -31,6 +31,7 @@ class Turnips {
             if(element.id === 254704367){
                 element.name = 'Débora♡'
             }
+            console.log(element)
             return element
         })
         newstr[0][today] = idMap
