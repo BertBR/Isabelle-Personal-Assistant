@@ -25,16 +25,18 @@ class Turnips {
 
     async downloadFromDropbox() {
         const content = await readFileDropbox('/turnips.json')
-        const today = await this.checkDay()
-        const newstr = JSON.parse(content)
-        const idMap = newstr[0][today].map(element => {
-            if(element.id === 254704367){
-                element.name = 'Débora♡'
-            }
-            console.log(element)
-            return element
-        })
-        newstr[0][today] = idMap
+        const week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const newstr = JSON.parse([content])
+        for (const i in week) {
+            const today = week[i]
+            const idMap = newstr[0][today].map(element => {
+                if(element.id === 254704367){
+                    element.name = 'Débora♡'
+                }
+                return element
+            })
+            newstr[0][today] = idMap
+        }
         return await writeFileAsync('./turnips.json', JSON.stringify(newstr))
     }
 
