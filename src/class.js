@@ -25,6 +25,7 @@ class Turnips {
 
     async downloadFromDropbox() {
         const content = await readFileDropbox('/turnips.json')
+        console.log(content)
         const week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         const newstr = JSON.parse([content])
         for (const i in week) {
