@@ -1,0 +1,45 @@
+{
+  "name": "Isabelle-Personal-Assistant",
+  "version": "1.0.0",
+  "description": "Offical bot of: http://t.me/acnlbr",
+  "main": "index.js",
+  "scripts": {
+    "mon": "nodemon bot.js",
+    "start": "node src/menu.js",
+    "test": "jest ./tests"
+  },
+  "keywords": [
+    "telegram",
+    "animal crossing",
+    "turnips"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "knex": "^0.20.13",
+    "ngrok": "^3.2.7",
+    "pg": "^8.0.2",
+    "sqlite3": "^4.1.1",
+    "telegraf": "^3.37.0",
+    "telegraf-inline-menu": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.3.0",
+    "nodemon": "^1.19.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BertBR/ACNLBRBOT.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BertBR/ACNLBRBOT/issues"
+  },
+  "homepage": "https://github.com/BertBR/ACNLBRBOT#readme"
+}
