@@ -12,6 +12,7 @@ const {
   registerTurnipsBuy,
   registerTurnipsSell,
   registerFruit,
+  setOperations,
 } = require("./functions");
 
 const fruitMenu = new TelegrafInlineMenu("Informe sua fruta nativa:");
