@@ -1,6 +1,35 @@
 /* eslint-disable eqeqeq */
-const connection = require("./database/connection");
-let list3ds, listSw;
+const connection = require("./database/connection")
+let list3ds, listSw
+
+function setOperations(today){
+  if(today === 0){
+    const id = await connection('operations')
+    .select('cod')
+
+    if(id === 0){
+      await connection('3ds_turnips').del()
+      await connection('switch_turnips').del()
+
+      return connection('operations').update('cod', 1)
+    }
+
+  }
+
+  if(today === 1){
+    const id = await connection('operations')
+    .select('cod')
+
+    if(id === 1){
+
+      await connection('3ds_turnips').del()
+      await connection('switch_turnips').del()
+      return connection('operations').update('cod', 0)
+    }
+
+  }
+
+}
 
 function checkIfSunday(today) {
   if (today !== 0) {
@@ -450,6 +479,7 @@ async function registerFruit({ ctx, flag, key }) {
 }
 
 module.exports = {
+  setOperations,
   createUserFC,
   listFC,
   listTurnips,
