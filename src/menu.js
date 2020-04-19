@@ -7,7 +7,7 @@ const mainMenu = new TelegrafInlineMenu(
   (ctx) => `Bem-Vindo ${ctx.from.first_name}!\nEscolha sua plataforma:`
 );
 
-setOperations(new Date().getDay());
+() => setOperations(new Date().getDay());
 
 mainMenu.submenu("3ds", "menu3ds", menu3ds);
 mainMenu.submenu("Switch", "menuswitch", menuSwitch);

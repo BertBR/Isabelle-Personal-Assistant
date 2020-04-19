@@ -9,7 +9,6 @@ async function setOperations(today) {
     if (id === 0) {
       await connection("3ds_turnips").del();
       await connection("switch_turnips").del();
-
       return connection("operations").update("cod", 1);
     }
   }
