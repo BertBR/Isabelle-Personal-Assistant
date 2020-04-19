@@ -1,34 +1,28 @@
 /* eslint-disable eqeqeq */
-const connection = require("./database/connection")
-let list3ds, listSw
+const connection = require("./database/connection");
+let list3ds, listSw;
 
-function setOperations(today){
-  if(today === 0){
-    const id = await connection('operations')
-    .select('cod')
+async function setOperations(today) {
+  if (today === 0) {
+    const id = await connection("operations").select("cod");
 
-    if(id === 0){
-      await connection('3ds_turnips').del()
-      await connection('switch_turnips').del()
+    if (id === 0) {
+      await connection("3ds_turnips").del();
+      await connection("switch_turnips").del();
 
-      return connection('operations').update('cod', 1)
+      return connection("operations").update("cod", 1);
     }
-
   }
 
-  if(today === 1){
-    const id = await connection('operations')
-    .select('cod')
+  if (today === 1) {
+    const id = await connection("operations").select("cod");
 
-    if(id === 1){
-
-      await connection('3ds_turnips').del()
-      await connection('switch_turnips').del()
-      return connection('operations').update('cod', 0)
+    if (id === 1) {
+      await connection("3ds_turnips").del();
+      await connection("switch_turnips").del();
+      return connection("operations").update("cod", 0);
     }
-
   }
-
 }
 
 function checkIfSunday(today) {
@@ -130,13 +124,13 @@ async function createUserFC({ ctx, flag }) {
     });
     return ctx.reply(`FC - ${flag} cadastrado com sucesso!`);
   }
-  
-    await connection("switch_users").where("id", userId).update({
-      name: userFirstName,
-      username: username,
-      fc: userMsg,
-    });
-    return ctx.reply(`FC - ${flag} cadastrado com sucesso!`);
+
+  await connection("switch_users").where("id", userId).update({
+    name: userFirstName,
+    username: username,
+    fc: userMsg,
+  });
+  return ctx.reply(`FC - ${flag} cadastrado com sucesso!`);
 }
 
 async function listFC({ ctx, flag }) {
@@ -487,5 +481,5 @@ module.exports = {
   checkWeekDay,
   registerTurnipsBuy,
   registerTurnipsSell,
-  registerFruit
+  registerFruit,
 };
