@@ -13,6 +13,9 @@
     "animal crossing",
     "turnips"
   ],
+  "engines": {
+    "node": "16"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
