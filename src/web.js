@@ -13,7 +13,7 @@ async function start () {
   console.log(`Webhook set to ${externalHost}`)
 
   bot.startWebhook(`/${process.env.BOT_TOKEN}`, null, process.env.PORT)
-  console.log(`Webhook listening on http://${externalHost}:${process.env.PORT}`)
+  console.log(`Webhook listening on ${externalHost}:${process.env.PORT}`)
 
   return bot
 }
