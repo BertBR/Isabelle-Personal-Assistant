@@ -1,6 +1,6 @@
 {
   "name": "isabelle-personal-assistant",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Offical bot of: http://t.me/acnlbr",
   "main": "index.js",
   "scripts": {
