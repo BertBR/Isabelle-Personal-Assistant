@@ -1,8 +1,8 @@
 const TelegrafInlineMenu = require('telegraf-inline-menu')
-const { bot } = require('./web')
-const { menu3ds } = require('./menu3ds')
-const { menuSwitch } = require('./menuSwitch')
-const { setOperations } = require('./functions')
+const { bot } = require('../web')
+const { menu3ds } = require('./3ds/menu3ds')
+const { menuSwitch } = require('./switch/menuSwitch')
+const { setOperations } = require('../functions')
 const mainMenu = new TelegrafInlineMenu(
   (ctx) => `Bem-Vindo ${ctx.from.first_name}!\nEscolha sua plataforma:`
 )

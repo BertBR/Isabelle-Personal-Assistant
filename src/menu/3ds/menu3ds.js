@@ -12,7 +12,7 @@ const {
   registerTurnipsBuy,
   registerTurnipsSell,
   registerFruit
-} = require('./functions')
+} = require('../../functions')
 
 const fruitMenu = new TelegrafInlineMenu('Informe sua fruta nativa:')
 fruitMenu.select('fruits', ['🍎', '🍊', '🍒', '🍐', '🍑'], {
