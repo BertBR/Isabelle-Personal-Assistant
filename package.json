@@ -1,11 +1,12 @@
 {
-  "name": "Isabelle-Personal-Assistant",
+  "name": "isabelle-personal-assistant",
   "version": "1.0.0",
   "description": "Offical bot of: http://t.me/acnlbr",
   "main": "index.js",
   "scripts": {
     "mon": "nodemon bot.js",
-    "start": "node src/menu.js",
+    "start": "node -r dotenv/config src/menu/menu.js dotenv_config_path=.env.dev",
+    "start:dev": "nodemon -r dotenv/config src/menu/menu.js dotenv_config_path=.env.dev",
     "test": "jest ./tests"
   },
   "keywords": [
@@ -13,16 +14,16 @@
     "animal crossing",
     "turnips"
   ],
+  "author": "",
+  "license": "ISC",
   "engines": {
     "node": "16"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "knex": "^0.95.14",
-    "ngrok": "^3.2.7",
     "pg": "^8.7.1",
+    "knex": "^0.95.14",
+    "dotenv": "^8.2.0",
+    "ngrok": "^3.2.7",
     "sqlite3": "^4.1.1",
     "telegraf": "^3.37.0",
     "telegraf-inline-menu": "^4.0.0"
