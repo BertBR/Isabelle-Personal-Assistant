@@ -45,4 +45,4 @@ Check this example:
 > - **v1.1.0:**
 > Add Dream Address feature!
 > Now users can be register they own Dream address (like FC);
-> - Register/List Dream Address
+>   - Register/List Dream Address
