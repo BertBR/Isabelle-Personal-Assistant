@@ -1,4 +1,4 @@
-Isabelle, Personal Assistant - BOT (W.I.P)
+Isabelle, Personal Assistant - BOT
 ===
 
 > **Official bot of:** [Animal Crossing - New Leaf 🇧🇷](http://t.me/acnlbr)
@@ -25,7 +25,7 @@ Check this example:
 
 <img src='./media/demo.gif'>
 
-## Work in progress
+## Changelog
 > - **v1.0a:**
 >
 >   For now, this bot has just two basic functions:
@@ -41,4 +41,8 @@ Check this example:
 >   - Register/List Friend Code(with your Native);
 >   - Register/List Native Fruit;
 >   - Register/List Turnips by day (real time), you will can register for the Morning and Afternoon as well;
->   - Register Turnips BUY price (on the sundays only);
+>   - Register Turnips BUY price (on the sundays only); <br><br>
+> - **v1.1.0:**
+> Add Dream Address feature!
+> Now users can be register they own Dream address (like FC);
+> - Register/List Dream Address
