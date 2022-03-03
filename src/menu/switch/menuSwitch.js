@@ -60,7 +60,7 @@ menuSwitch
   .submenu('🍎 Cadastrar Fruta Nativa', 'regfruitsw', fruitMenu)
 menuSwitch.submenu('🍀 Cadastrar Turnips', 'regturnipssw', menuTurnipsSwitch)
 menuSwitch.simpleButton('📜 Listar Friend Code', 'listfcsw', {
-  doFunc: async (ctx) => await listFC({ ctx, flag: 'Switch' })
+  doFunc: async (ctx) => await listFC({ ctx })
 })
 menuSwitch.simpleButton('📈 Listar Turnips', 'listturnipssw', {
   doFunc: async (ctx) => listTurnips({ ctx: ctx, flag: 'Switch', today })
