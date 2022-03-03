@@ -1,16 +1,10 @@
 const TelegrafInlineMenu = require('telegraf-inline-menu')
 const menuSwitch = new TelegrafInlineMenu('Switch Menu')
-const menuTurnipsSwitch = new TelegrafInlineMenu('Escolha uma opção:')
-const today = new Date().getDay()
 
 const {
   createUserFC,
   listFC,
-  listTurnips,
-  checkIfSunday,
   checkWeekDay,
-  registerTurnipsBuy,
-  registerTurnipsSell,
   registerFruit,
   createUserDA,
   ListDC
@@ -58,62 +52,9 @@ menuSwitch
     }
   })
   .submenu('🍎 Cadastrar Fruta Nativa', 'regfruitsw', fruitMenu)
-menuSwitch.submenu('🍀 Cadastrar Turnips', 'regturnipssw', menuTurnipsSwitch)
 menuSwitch.simpleButton('📜 Listar Friend Code', 'listfcsw', {
   doFunc: async (ctx) => await listFC({ ctx })
 })
-menuSwitch.simpleButton('📈 Listar Turnips', 'listturnipssw', {
-  doFunc: async (ctx) => listTurnips({ ctx: ctx, flag: 'Switch', today })
-})
-menuTurnipsSwitch
-  .question('Compra', 'buyturnipssw', {
-    uniqueIdentifier: 'buyturnipssw',
-    questionText: () => checkIfSunday(new Date().getDay()),
-    setFunc: async (ctx) => {
-      if (today !== 0) {
-        return true
-      }
-      if (ctx.message.text.match(/^\d{2,3}$/)) {
-        return await registerTurnipsBuy({ ctx, flag: 'Switch' })
-      }
-
-      return ctx.reply('Valor inválido, por favor insira um valor númerico!')
-    }
-  })
-  .submenu('Venda', 'sellturnipssw', sellMenuSwitch)
-sellMenuSwitch
-  .question('Manhã', 'morningsw', {
-    uniqueIdentifier: 'morningsw',
-    questionText: 'Informe o preço da manhã!',
-    setFunc: async function swMorning (ctx) {
-      if (ctx.message.text.match(/^\d{2,3}$/)) {
-        return await registerTurnipsSell({
-          ctx: ctx,
-          today: today,
-          flag: 'Switch',
-          flagTime: 'morning'
-        })
-      }
-
-      return ctx.reply('Valor inválido, por favor insira um valor númerico!')
-    }
-  })
-  .question('Tarde', 'noonsw', {
-    uniqueIdentifier: 'noonsw',
-    questionText: 'Informe o preço da tarde!',
-    setFunc: async (ctx) => {
-      if (ctx.message.text.match(/^\d{2,3}$/)) {
-        return await registerTurnipsSell({
-          ctx: ctx,
-          today: today,
-          flag: 'Switch',
-          flagTime: 'noon'
-        })
-      }
-
-      return ctx.reply('Valor inválido, por favor insira um valor númerico!')
-    }
-  })
 
 module.exports = {
   menuSwitch
