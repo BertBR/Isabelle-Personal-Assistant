@@ -24,13 +24,6 @@ async function setOperations(today) {
   }
 }
 
-function checkIfSunday(today) {
-  if (today !== 0) {
-    return 'Função disponível somente aos Domingos!\nDigite /start para voltar!'
-  }
-  return 'Informe o preço de compra:'
-}
-
 function checkWeekDay(ctx, today) {
   if (today === 0) {
     ctx.reply(
@@ -41,7 +34,7 @@ function checkWeekDay(ctx, today) {
   return 'Escolha uma opção:'
 }
 
-async function checkUser({ userId, flag }) {
+async function checkUser({ userId }) {
   const [user] = await connection('switch_users')
     .where('id', userId)
     .select('id')
@@ -49,22 +42,6 @@ async function checkUser({ userId, flag }) {
   return user
 }
 
-async function checkTurnipSell({ today, userId }) {
-  const [turnip] = await connection('switch_turnips')
-    .where({
-      week_day: today,
-      user_id: userId
-    })
-    .select('morning', 'noon')
-  return turnip
-}
-
-async function checkTurnipBuy({ ctx }) {
-  const [turnip] = await connection('switch_turnips')
-    .where('user_id', ctx.message.from.id)
-    .select('user_id')
-  return turnip
-}
 
 async function createUserDA({ ctx }) {
   const userId = ctx.message.from.id
@@ -93,7 +70,7 @@ async function createUserDA({ ctx }) {
 
 async function createUserFC({ ctx, flag }) {
   const userId = ctx.message.from.id
-  const user = await checkUser({ userId: userId, flag: flag })
+  const user = await checkUser({ userId: userId })
 
   const userFirstName = ctx.message.from.first_name
   const username = ctx.message.from.username
@@ -171,96 +148,6 @@ async function listFC({ ctx }) {
   )
 }
 
-async function registerTurnipsBuy({ ctx, flag }) {
-  const userId = ctx.message.from.id
-  const user = await checkUser({ userId: userId, flag: flag })
-  const turnip = await checkTurnipBuy({ ctx: ctx, flag: flag })
-
-  const price = ctx.message.text
-
-  if (user === undefined) {
-    return ctx.reply(
-      'Você ainda não cadastrou seu FC. Por favor, cadastre-se antes de inserir os preços dos Turnips'
-    )
-  }
-
-  if (turnip === undefined) {
-    await connection('switch_turnips').insert({
-      buy_price: price,
-      user_id: userId
-    })
-    return ctx.reply(`Você cadastrou o valor: ${price}`)
-  }
-
-  if (turnip.user_id == userId) {
-    await connection('switch_turnips').where('user_id', userId).update({
-      buy_price: price
-    })
-    return ctx.reply(`Você cadastrou o valor: ${price}`)
-  }
-}
-
-async function registerTurnipsSell({ ctx, today, flag, flagTime }) {
-  const userId = ctx.message.from.id
-  const price = ctx.message.text
-  const user = await checkUser({ userId: userId, flag: flag })
-
-  if (user === undefined) {
-    return ctx.reply(
-      'Você ainda não cadastrou seu FC. Por favor, cadastre-se antes de inserir os preços dos Turnips'
-    )
-  }
-
-  const turnip = await checkTurnipSell({
-    today: today,
-    userId: userId,
-    flag: flag
-  })
-
-  if (turnip === undefined) {
-    if (flagTime === 'morning') {
-      await connection('switch_turnips').where('user_id', userId).insert({
-        morning: price,
-        week_day: today,
-        user_id: userId
-      })
-      return ctx.reply(`Você cadastrou o valor: ${price}`)
-    }
-    await connection('switch_turnips').where('user_id', userId).insert({
-      noon: price,
-      week_day: today,
-      user_id: userId
-    })
-    return ctx.reply(`Você cadastrou o valor: ${price}`)
-  }
-
-
-  // Switch - Update
-
-
-  if (flagTime === 'morning') {
-    await connection('switch_turnips')
-      .where({
-        user_id: userId,
-        week_day: today
-      })
-      .update({
-        morning: price
-      })
-    return ctx.reply(`Você cadastrou o valor: ${price}`)
-  }
-  await connection('switch_turnips')
-    .where({
-      user_id: userId,
-      week_day: today
-    })
-    .update({
-      noon: price
-    })
-  return ctx.reply(`Você cadastrou o valor: ${price}`)
-}
-
-
 function checkValue(element) {
   if (element.morning === null) {
     element.morning = 0
@@ -278,92 +165,9 @@ function checkValue(element) {
   }
 }
 
-async function listTurnips({ ctx, flag, today }) {
-  let list
-
-  // List Turnips Sunday (Buy Price)
-  if (today === 0) {
-      list = await connection('switch_turnips')
-        .join('switch_users', 'id', '=', 'switch_turnips.user_id')
-        .select('name', 'username', 'buy_price')
-    const sunday = list.map((element) => {
-      checkValue(element)
-      return `[${element.name}](http://t.me/${element.username}) : *${element.buy_price}*\n`
-    })
-
-    const finalList = `==========${flag}==========\n*Preço de Compra(Domingo)*\n\n${sunday}\n==========${flag}==========`
-
-    return ctx.replyWithMarkdown(finalList.toString().replace(/,/g, ''), {
-      disable_web_page_preview: true
-    })
-  }
-
-  // List Turnips Monday-Saturday (Sell Price)
-    list = await connection('switch_turnips')
-      .join('switch_users', 'id', '=', 'switch_turnips.user_id')
-      .select('week_day', 'name', 'username', 'morning', 'noon')
-  // List's creation for each day of week
-
-  const monday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 1) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  const tuesday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 2) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  const wednesday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 3) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  const thursday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 4) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  const friday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 5) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  const saturday = list.map((element) => {
-    checkValue(element)
-    if (element.week_day == 6) {
-      return `[${element.name}](http://t.me/${element.username}): Manhã(*${element.morning}*) / Tarde(*${element.noon}*)\n`
-    }
-  })
-
-  // List's assembly
-
-  const finalList = `==========${flag}==========
-            *Segunda-Feira*\n${monday}
-            *Terça-Feira*\n${tuesday}
-            *Quarta-Feira*\n${wednesday}
-            *Quinta-Feira*\n${thursday}
-            *Sexta-Feira*\n${friday}
-            *Sábado*\n${saturday}\n==========${flag}==========`
-
-  return ctx.replyWithMarkdown(finalList.toString().replace(/,/g, ''), {
-    disable_web_page_preview: true
-  })
-}
-
 async function registerFruit({ ctx, flag, key }) {
   const userId = ctx.from.id
-  const user = await checkUser({ userId: userId, flag: flag })
+  const user = await checkUser({ userId: userId })
 
   if (user === undefined) {
     return ctx.reply(
@@ -381,11 +185,7 @@ module.exports = {
   setOperations,
   createUserFC,
   listFC,
-  listTurnips,
-  checkIfSunday,
   checkWeekDay,
-  registerTurnipsBuy,
-  registerTurnipsSell,
   registerFruit,
   createUserDA,
   ListDC
